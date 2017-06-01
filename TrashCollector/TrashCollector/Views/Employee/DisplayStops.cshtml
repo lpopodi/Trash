@@ -1,0 +1,112 @@
+﻿@model IEnumerable<TrashCollector.Models.Customer>
+
+@{
+    ViewBag.Title = "DisplayDailyStops";
+}
+
+<h2>Today's Pickups</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StreetAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ZipCode)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StreetAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZipCode)
+            </td>
+        </tr>
+    }
+</table>
+<hr />
+<br />
+
+<div id="map"></div>
+<div id="directions-panel"></div>
+
+<script>
+        var geocoder;
+        var map;
+        var directionsDisplay;
+        var directionsService;
+        var stepDisplay;
+        var pickups = @Html.Raw(Json.Encode(Model));
+        var waypts = [];
+        function initMap() {
+            geocoder = new google.maps.Geocoder();
+            directionsService = new google.maps.DirectionsService;
+            directionsDisplay = new google.maps.DirectionsRenderer;
+            var latlng = new google.maps.LatLng(43.0389, -87.9065);
+            var mapOptions = {
+                center: latlng,
+                zoom: 13,
+            };
+            map = new google.maps.Map(document.getElementById("map"), mapOptions);
+            directionsDisplay.setMap(map);
+            codeAddress();
+            calculateAndDisplayRoute();
+        }
+
+        function codeAddress() {
+            for(var i = 0; i < pickups.length; i++){
+                var address = pickups[i].StreetAddress + " " + pickups[i].City + " " + pickups[i].State + " " + pickups[i].ZipCode;
+                waypts.push({
+                    location: address,
+                    stopover: true
+                });
+                geocoder.geocode( { 'address': address}, function(results, status) {
+                    if (status == 'OK') {
+                        map.setCenter(results[0].geometry.location);
+                        var marker = new google.maps.Marker({
+                            map: map,
+                            position: results[0].geometry.location,
+                            animation: google.maps.Animation.DROP
+                        });
+                    } else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            }
+        }
+
+        function calculateAndDisplayRoute() {
+            console.log(waypts);
+            directionsService.route({
+                origin: "10627 S 27th St, Franklin, WI 53132",
+                destination: "10627 S 27th St, Franklin, WI 53132",
+                waypoints: waypts,
+                optimizeWaypoints: true,
+                travelMode: 'DRIVING'
+            }, function(response, status) {
+                if (status === 'OK') {
+                    directionsDisplay.setDirections(response);
+                    var route = response.routes[0];
+                    var summaryPanel = document.getElementById('directions-panel');
+                    summaryPanel.innerHTML = '';
+                    for (var i = 0; i < route.legs.length; i++) {
+                        var routeSegment = i + 1;
+                        summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+                            '</b><br>';
+                        summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+                        summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+                        summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+                    }
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
+        }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGncMmH0tFWOv1t5dR1skn6yPocwS57eg&callback=initMap"></script>
+
