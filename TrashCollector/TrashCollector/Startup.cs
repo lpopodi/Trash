@@ -15,6 +15,7 @@ namespace TrashCollector
         {
             ConfigureAuth(app);
             createRolesandUsers();
+            CheckUpdateNextPickup();
         }
 
         private void createRolesandUsers()
@@ -71,28 +72,34 @@ namespace TrashCollector
             }
         }
 
-        public void InvoiceAccounts()
+        public void CheckUpdateNextPickup()
         {
             ApplicationDbContext db = new ApplicationDbContext();
-            var todayDate = DateTime.Now;
-            var startDate = DateTime.Now.AddMonths(-1);
-            var accountsToInvoice = db.Customers.ToList();
-            foreach (var customer in accountsToInvoice)
+            var todaysDate = DateTime.Today;
+            var getSchedules = db.Schedules.ToList();
+            foreach (var schedule in getSchedules)
             {
-                var customerBillDate = customer.Schedule.BillDate;
-                if (customerBillDate == todayDate)
+                if (todaysDate > schedule.DefaultPickupDay)
                 {
-                    Invoice invoice = new Invoice();
-                    invoice.InvoiceDate = DateTime.Now;
-                    var customerPickups = customer.Pickups.Where(d => d.PickupDate >= startDate && d.PickupDate <= todayDate).ToList();
-                    foreach (var pickup in customerPickups)
+                    var newDate = schedule.DefaultPickupDay.AddDays(7);
+                    if (schedule.VacationStartDate != null && schedule.VacationEndDate != null)
                     {
-                        //invoice.InvoiceDetails.Add(1, "Trash Pickup", pickup.PickupDate, 20);
-
+                        if (newDate >= schedule.VacationStartDate && newDate < schedule.VacationEndDate)
+                        {
+                            do
+                            {
+                                newDate = newDate.AddDays(7);
+                            }
+                            while (newDate < schedule.VacationEndDate);
+                        }
                     }
+                    schedule.DefaultPickupDay = newDate;
+                    db.SaveChanges();
                 }
             }
-
         }
+
+        
+
     }
 }

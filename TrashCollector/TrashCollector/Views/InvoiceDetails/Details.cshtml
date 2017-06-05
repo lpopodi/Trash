@@ -1,0 +1,42 @@
+﻿@model TrashCollector.Models.InvoiceDetail
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>InvoiceDetail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LineItem)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LineItem)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LineDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LineDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LinePrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LinePrice)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.LineId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

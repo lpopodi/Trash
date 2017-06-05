@@ -7,13 +7,13 @@ namespace TrashCollector.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class edittoschedulemodel : IMigrationMetadata
+    public sealed partial class afterremovingmigrationsfolder : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(edittoschedulemodel));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(afterremovingmigrationsfolder));
         
         string IMigrationMetadata.Id
         {
-            get { return "201705311934068_edit to schedule model"; }
+            get { return "201706051619211_after removing migrations folder"; }
         }
         
         string IMigrationMetadata.Source

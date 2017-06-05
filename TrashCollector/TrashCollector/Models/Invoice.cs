@@ -13,6 +13,7 @@ namespace TrashCollector.Models
         public Guid InvoiceId { get; set; }
         [Display(Name = "Invoice Date")]
         public DateTime InvoiceDate { get; set; }
+        public decimal Total { get; set; }
 
         public virtual Customer Customer { get; set; }
 

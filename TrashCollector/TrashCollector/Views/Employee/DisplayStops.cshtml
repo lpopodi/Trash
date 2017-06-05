@@ -5,7 +5,8 @@
 }
 
 <h2>Today's Pickups</h2>
-
+@if (Model != null && Model.Any())
+{
 <table class="table">
     <tr>
         <th>
@@ -31,9 +32,20 @@
 </table>
 <hr />
 <br />
+<div class="row">
 
-<div id="map"></div>
-<div id="directions-panel"></div>
+        <div id="directions-panel" style="float:left width: 300px"></div>
+
+        <div id="map" style="float:right min-height:500px width: 600px"></div>
+
+</div>
+}
+else
+{
+    Html.DisplayText("No results found");
+    //Message to display no student record found.
+}
+
 
 <script>
         var geocoder;
@@ -47,7 +59,7 @@
             geocoder = new google.maps.Geocoder();
             directionsService = new google.maps.DirectionsService;
             directionsDisplay = new google.maps.DirectionsRenderer;
-            var latlng = new google.maps.LatLng(43.0389, -87.9065);
+            var latlng = new google.maps.LatLng(42.8511994, -87.9548895);
             var mapOptions = {
                 center: latlng,
                 zoom: 13,

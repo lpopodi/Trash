@@ -199,6 +199,7 @@
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvoiceDetailsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SchedulesController.cs" />
@@ -206,49 +207,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201705311718348_initial migration roles should be added.cs" />
-    <Compile Include="Migrations\201705311718348_initial migration roles should be added.Designer.cs">
-      <DependentUpon>201705311718348_initial migration roles should be added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705311757245_added model for customer.cs" />
-    <Compile Include="Migrations\201705311757245_added model for customer.Designer.cs">
-      <DependentUpon>201705311757245_added model for customer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705311800218_added to customer to identity model.cs" />
-    <Compile Include="Migrations\201705311800218_added to customer to identity model.Designer.cs">
-      <DependentUpon>201705311800218_added to customer to identity model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705311844535_added models for pickup schedule and invoice.cs" />
-    <Compile Include="Migrations\201705311844535_added models for pickup schedule and invoice.Designer.cs">
-      <DependentUpon>201705311844535_added models for pickup schedule and invoice.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705311934068_edit to schedule model.cs" />
-    <Compile Include="Migrations\201705311934068_edit to schedule model.Designer.cs">
-      <DependentUpon>201705311934068_edit to schedule model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705311937167_schedule to customer not application user.cs" />
-    <Compile Include="Migrations\201705311937167_schedule to customer not application user.Designer.cs">
-      <DependentUpon>201705311937167_schedule to customer not application user.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705311949133_changed string to guid on schedule id.cs" />
-    <Compile Include="Migrations\201705311949133_changed string to guid on schedule id.Designer.cs">
-      <DependentUpon>201705311949133_changed string to guid on schedule id.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705312031201_edits to schedule model.cs" />
-    <Compile Include="Migrations\201705312031201_edits to schedule model.Designer.cs">
-      <DependentUpon>201705312031201_edits to schedule model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705312032411_edit to customer model.cs" />
-    <Compile Include="Migrations\201705312032411_edit to customer model.Designer.cs">
-      <DependentUpon>201705312032411_edit to customer model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706010348451_working on employee controller.cs" />
-    <Compile Include="Migrations\201706010348451_working on employee controller.Designer.cs">
-      <DependentUpon>201706010348451_working on employee controller.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706011232168_working on google maps.cs" />
-    <Compile Include="Migrations\201706011232168_working on google maps.Designer.cs">
-      <DependentUpon>201706011232168_working on google maps.cs</DependentUpon>
+    <Compile Include="Migrations\201706051619211_after removing migrations folder.cs" />
+    <Compile Include="Migrations\201706051619211_after removing migrations folder.Designer.cs">
+      <DependentUpon>201706051619211_after removing migrations folder.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -335,6 +296,12 @@
     <Content Include="Views\Schedules\Index.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Employee\DisplayStops.cshtml" />
+    <Content Include="Views\Customers\MyAccount.cshtml" />
+    <Content Include="Views\InvoiceDetails\Create.cshtml" />
+    <Content Include="Views\InvoiceDetails\Delete.cshtml" />
+    <Content Include="Views\InvoiceDetails\Details.cshtml" />
+    <Content Include="Views\InvoiceDetails\Edit.cshtml" />
+    <Content Include="Views\InvoiceDetails\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -349,38 +316,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705311718348_initial migration roles should be added.resx">
-      <DependentUpon>201705311718348_initial migration roles should be added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705311757245_added model for customer.resx">
-      <DependentUpon>201705311757245_added model for customer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705311800218_added to customer to identity model.resx">
-      <DependentUpon>201705311800218_added to customer to identity model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705311844535_added models for pickup schedule and invoice.resx">
-      <DependentUpon>201705311844535_added models for pickup schedule and invoice.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705311934068_edit to schedule model.resx">
-      <DependentUpon>201705311934068_edit to schedule model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705311937167_schedule to customer not application user.resx">
-      <DependentUpon>201705311937167_schedule to customer not application user.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705311949133_changed string to guid on schedule id.resx">
-      <DependentUpon>201705311949133_changed string to guid on schedule id.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705312031201_edits to schedule model.resx">
-      <DependentUpon>201705312031201_edits to schedule model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705312032411_edit to customer model.resx">
-      <DependentUpon>201705312032411_edit to customer model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706010348451_working on employee controller.resx">
-      <DependentUpon>201706010348451_working on employee controller.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706011232168_working on google maps.resx">
-      <DependentUpon>201706011232168_working on google maps.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201706051619211_after removing migrations folder.resx">
+      <DependentUpon>201706051619211_after removing migrations folder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,0 +1,48 @@
+﻿@model TrashCollector.Models.InvoiceDetail
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>InvoiceDetail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LineItem)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LineItem)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LineDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LineDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LinePrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LinePrice)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

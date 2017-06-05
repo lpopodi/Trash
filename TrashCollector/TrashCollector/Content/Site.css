@@ -22,3 +22,15 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/* Start custom css edits */
+div#map {
+    height: 500px;
+    width: 600px !important;
+    float: right;
+}
+
+div#directions-panel {
+    width: 300px !important;
+    float: left !important;
+}
