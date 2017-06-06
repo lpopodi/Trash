@@ -32,29 +32,38 @@ namespace TrashCollector.Controllers
             }
             return false;
         }
+
         public ActionResult Index()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = User.Identity;
-                ViewBag.Name = user.Name;
-                
-                ViewBag.displayMenu = "No";
+            var user = User.Identity;
+            ApplicationDbContext context = new ApplicationDbContext();
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var s = UserManager.GetRoles(user.GetUserId());
 
-                if (isAdminUser())
+            do
+            {
+                if (s[0].ToString() == "Admin")
                 {
-                    ViewBag.displayMenu = "Yes";
+                    //UserStatus = "Admin";
+                    return View("Admin", "User");
                 }
-                return View();
+                else if (s[0].ToString() == "Employee")
+                {
+                    //UserStatus = "Employee";
+                    return RedirectToAction("Index", "Employee");
+                }
+                else if (s[0].ToString() == "Customer")
+                {
+                    //UserStatus = "Customer";
+                    return RedirectToAction("Create", "Customers");
+                }
+                else
+                {
+                    //UserStatus = "na";
+                    return View("Index", "Home");
+                }
             }
-            else
-            {
-                ViewBag.Name = "Not Logged IN";
-            }
-
-
-            return View();
-
+            while (User.Identity.IsAuthenticated);
         }
     }
 }

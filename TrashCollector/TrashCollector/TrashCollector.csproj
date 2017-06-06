@@ -77,6 +77,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PayPal, Version=1.8.0.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PayPal.1.8.0\lib\net451\PayPal.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -140,9 +148,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -199,10 +204,10 @@
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\InvoiceDetailsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PayPalController.cs" />
+    <Compile Include="Controllers\PickupsController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
-    <Compile Include="Controllers\SchedulesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -211,15 +216,33 @@
     <Compile Include="Migrations\201706051619211_after removing migrations folder.Designer.cs">
       <DependentUpon>201706051619211_after removing migrations folder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706051928496_schedule model changing id to scheduleId.cs" />
+    <Compile Include="Migrations\201706051928496_schedule model changing id to scheduleId.Designer.cs">
+      <DependentUpon>201706051928496_schedule model changing id to scheduleId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706051944053_add schedule to customer model.cs" />
+    <Compile Include="Migrations\201706051944053_add schedule to customer model.Designer.cs">
+      <DependentUpon>201706051944053_add schedule to customer model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706061423020_refactoring customer model to include schedule.cs" />
+    <Compile Include="Migrations\201706061423020_refactoring customer model to include schedule.Designer.cs">
+      <DependentUpon>201706061423020_refactoring customer model to include schedule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706061539142_edit to pickup.cs" />
+    <Compile Include="Migrations\201706061539142_edit to pickup.Designer.cs">
+      <DependentUpon>201706061539142_edit to pickup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706061906067_removing invoice model adding account balance to customer.cs" />
+    <Compile Include="Migrations\201706061906067_removing invoice model adding account balance to customer.Designer.cs">
+      <DependentUpon>201706061906067_removing invoice model adding account balance to customer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Invoice.cs" />
-    <Compile Include="Models\InvoiceDetail.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Pickup.cs" />
-    <Compile Include="Models\Schedule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -284,27 +307,27 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Role\Create.cshtml" />
+    <Content Include="Views\Employee\DisplayStops.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Customers\Create.cshtml" />
     <Content Include="Views\Customers\Delete.cshtml" />
     <Content Include="Views\Customers\Details.cshtml" />
     <Content Include="Views\Customers\Edit.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
-    <Content Include="Views\Schedules\Create.cshtml" />
-    <Content Include="Views\Schedules\Delete.cshtml" />
-    <Content Include="Views\Schedules\Details.cshtml" />
-    <Content Include="Views\Schedules\Edit.cshtml" />
-    <Content Include="Views\Schedules\Index.cshtml" />
-    <Content Include="Views\Employee\Index.cshtml" />
-    <Content Include="Views\Employee\DisplayStops.cshtml" />
+    <Content Include="Views\Employee\CustomerIndex.cshtml" />
+    <Content Include="Views\Pickups\Create.cshtml" />
+    <Content Include="Views\Pickups\Delete.cshtml" />
+    <Content Include="Views\Pickups\Details.cshtml" />
+    <Content Include="Views\Pickups\Edit.cshtml" />
+    <Content Include="Views\Pickups\Index.cshtml" />
     <Content Include="Views\Customers\MyAccount.cshtml" />
-    <Content Include="Views\InvoiceDetails\Create.cshtml" />
-    <Content Include="Views\InvoiceDetails\Delete.cshtml" />
-    <Content Include="Views\InvoiceDetails\Details.cshtml" />
-    <Content Include="Views\InvoiceDetails\Edit.cshtml" />
-    <Content Include="Views\InvoiceDetails\Index.cshtml" />
+    <Content Include="Views\PayPal\PaymentWithPaypal.cshtml" />
+    <Content Include="Views\PayPal\PaymentSuccess.cshtml" />
+    <Content Include="Views\PayPal\PaymentFailure.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\" />
     <Folder Include="Views\MyAccount\" />
   </ItemGroup>
   <ItemGroup>
@@ -318,6 +341,21 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201706051619211_after removing migrations folder.resx">
       <DependentUpon>201706051619211_after removing migrations folder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706051928496_schedule model changing id to scheduleId.resx">
+      <DependentUpon>201706051928496_schedule model changing id to scheduleId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706051944053_add schedule to customer model.resx">
+      <DependentUpon>201706051944053_add schedule to customer model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706061423020_refactoring customer model to include schedule.resx">
+      <DependentUpon>201706061423020_refactoring customer model to include schedule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706061539142_edit to pickup.resx">
+      <DependentUpon>201706061539142_edit to pickup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706061906067_removing invoice model adding account balance to customer.resx">
+      <DependentUpon>201706061906067_removing invoice model adding account balance to customer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -10,7 +10,6 @@ namespace TrashCollector.Models
     {
         public Customer()
         {
-            Invoices = new List<Invoice>();
             Pickups = new List<Pickup>();
         }
 
@@ -39,9 +38,30 @@ namespace TrashCollector.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
+        [Display(Name = "Default Pickup Day")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime DefaultPickupDay { get; set; }
+
+        [Display(Name = "Start Vacation")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? VacationStartDate { get; set; }
+
+        [Display(Name = "End Vacation")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true, NullDisplayText = "")]
+        public DateTime? VacationEndDate { get; set; }
+
+        [Display(Name = "Billing Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime BillDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:n2}", ApplyFormatInEditMode = true)]
+        public decimal? AccountBalance { get; set; }
+
         public virtual ApplicationUser userId { get; set; }
-        public virtual Schedule Schedule { get; set; }
-        public ICollection<Invoice> Invoices { get; set; }
+
         public ICollection<Pickup> Pickups { get; set; }
     }
 }

@@ -1,49 +1,43 @@
 ﻿@model IEnumerable<TrashCollector.Models.Customer>
 
 @{
-    ViewBag.Title = "DisplayDailyStops";
+    ViewBag.Title = "DisplayStops";
 }
 
 <h2>Today's Pickups</h2>
 @if (Model != null && Model.Any())
 {
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.StreetAddress)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ZipCode)
-        </th>
-        <th></th>
-    </tr>
+    <div class="row">
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StreetAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ZipCode)
-            </td>
-        </tr>
-    }
-</table>
-<hr />
-<br />
-<div class="row">
-
-        <div id="directions-panel" style="float:left width: 300px"></div>
-
-        <div id="map" style="float:right min-height:500px width: 600px"></div>
-
-</div>
+        <div class="col-sm-6">
+            <h2>Map View</h2>
+            <div id="map" style="float:right min-height:500px width: 600px"></div>
+        </div>
+        <div class="col-sm-3">
+            <h2>Route</h2>
+            <div id="directions-panel" style="float:left width: 300px"></div>
+        </div>
+    </div>
+    <div class="row">
+        <h2>Stops for the Day</h2>
+        <div class="row">
+            <div class="col-sm-6">@Html.DisplayNameFor(model => model.StreetAddress)</div>
+            <div class="col-sm-3">@Html.DisplayNameFor(model => model.ZipCode)</div>
+            <div class="col-sm-3"></div>
+        </div>
+        @foreach (var item in Model)
+        {
+            <div class="row">
+                <div class="col-sm-6">@Html.DisplayFor(modelItem => item.StreetAddress)</div>
+                <div class="col-sm-3">@Html.DisplayFor(modelItem => item.ZipCode)</div>
+                <div class="col-sm-3">@Html.ActionLink("Apply Pickup", "ApplyPickup", new { customerId = item.Id })</div>
+            </div>
+        }
+    </div>
 }
 else
 {
     Html.DisplayText("No results found");
-    //Message to display no student record found.
 }
 
 
@@ -121,4 +115,3 @@ else
         }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGncMmH0tFWOv1t5dR1skn6yPocwS57eg&callback=initMap"></script>
-

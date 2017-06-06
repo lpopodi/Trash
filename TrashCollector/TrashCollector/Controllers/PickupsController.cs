@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -10,108 +11,112 @@ using TrashCollector.Models;
 
 namespace TrashCollector.Controllers
 {
-    public class SchedulesController : Controller
+    public class PickupsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Schedules
+        // GET: Pickups
         public ActionResult Index()
         {
-            return View(db.Schedules.ToList());
+            return View(db.Pickups.ToList());
         }
 
-        // GET: Schedules/Details/5
-        public ActionResult Details(Guid? id)
+        // GET: Pickups/Details/5
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Schedule schedule = db.Schedules.Find(id);
-            if (schedule == null)
+            Pickup pickup = db.Pickups.Find(id);
+            if (pickup == null)
             {
                 return HttpNotFound();
             }
-            return View(schedule);
+            return View(pickup);
         }
 
-        // GET: Schedules/Create
+        // GET: Pickups/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Schedules/Create
+        // POST: Pickups/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,DefaultPickupDay,VacationStartDate,VacationEndDate,BillDate")] Schedule schedule)
+        public ActionResult Create([Bind(Include = "PickupId,PickupDate")] Pickup pickup)
         {
             if (ModelState.IsValid)
             {
-                schedule.Id = Guid.NewGuid();
-                db.Schedules.Add(schedule);
+                var holder = User.Identity.GetUserId();
+                var thisCustomer = db.Customers.Where(u => u.userId.Id == holder).FirstOrDefault();
+                pickup.Customer = thisCustomer;
+                thisCustomer.Pickups.Add(pickup);
+                pickup.PickupDate = DateTime.Now;
+                db.Pickups.Add(pickup);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(schedule);
+            return View(pickup);
         }
 
-        // GET: Schedules/Edit/5
-        public ActionResult Edit(Guid? id)
+        // GET: Pickups/Edit/5
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Schedule schedule = db.Schedules.Find(id);
-            if (schedule == null)
+            Pickup pickup = db.Pickups.Find(id);
+            if (pickup == null)
             {
                 return HttpNotFound();
             }
-            return View(schedule);
+            return View(pickup);
         }
 
-        // POST: Schedules/Edit/5
+        // POST: Pickups/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,DefaultPickupDay,VacationStartDate,VacationEndDate,BillDate")] Schedule schedule)
+        public ActionResult Edit([Bind(Include = "PickupId,PickupDate")] Pickup pickup)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(schedule).State = EntityState.Modified;
+                db.Entry(pickup).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(schedule);
+            return View(pickup);
         }
 
-        // GET: Schedules/Delete/5
-        public ActionResult Delete(Guid? id)
+        // GET: Pickups/Delete/5
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Schedule schedule = db.Schedules.Find(id);
-            if (schedule == null)
+            Pickup pickup = db.Pickups.Find(id);
+            if (pickup == null)
             {
                 return HttpNotFound();
             }
-            return View(schedule);
+            return View(pickup);
         }
 
-        // POST: Schedules/Delete/5
+        // POST: Pickups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(Guid id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            Schedule schedule = db.Schedules.Find(id);
-            db.Schedules.Remove(schedule);
+            Pickup pickup = db.Pickups.Find(id);
+            db.Pickups.Remove(pickup);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

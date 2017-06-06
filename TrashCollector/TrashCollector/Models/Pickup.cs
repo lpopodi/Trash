@@ -17,7 +17,8 @@ namespace TrashCollector.Models
         [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime PickupDate { get; set; }
 
-        public virtual ApplicationUser AppUser { get; set; }
+        public virtual ApplicationUser userId { get; set; }
+        public virtual Customer Customer { get; set; }
        
     }
 }

@@ -34,3 +34,12 @@ div#directions-panel {
     width: 300px !important;
     float: left !important;
 }
+
+.lead-left {
+    float: left;
+    width: 75%;
+}
+
+p.lead-text {
+    padding-top: 40px;
+}

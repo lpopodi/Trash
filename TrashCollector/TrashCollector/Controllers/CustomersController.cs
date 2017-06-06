@@ -47,16 +47,17 @@ namespace TrashCollector.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,Phone,Email")] Customer customer)
+        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,Phone,Email,DefaultPickupDay,VacationStartDate,VacationEndDate,BillDate")] Customer customer)
         {
             if (ModelState.IsValid)
             {
                 var holder = User.Identity.GetUserId();
-                var user = db.Users.Where(u => u.Id == holder).First();
+                var user = db.Users.Where(u => u.Id == holder).FirstOrDefault();
+                customer.userId = user;
                 customer.Email = user.Email;
                 db.Customers.Add(customer);
                 db.SaveChanges();
-                return RedirectToAction("Create", "Schedules");
+                return RedirectToAction("Index");
             }
 
             return View(customer);
@@ -82,7 +83,7 @@ namespace TrashCollector.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,Phone,Email")] Customer customer)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,Phone,Email,DefaultPickupDay,VacationStartDate,VacationEndDate,BillDate")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -128,14 +129,18 @@ namespace TrashCollector.Controllers
             base.Dispose(disposing);
         }
 
-        //public ActionResult MyAccount()
-        //{
-        //    var holder = User.Identity.GetUserId();
-        //    var user = db.Users.Where(u => u.Id == holder).First();
-        //    var customerAccount = db.Customers.Where(c => c.userId.Id == user.Id).First();
-        //    var customerSchedule = db.Schedules.Where(s => s.Customer.Id == customerAccount.Id).First();
-        //    return View(customerSchedule);
-        //}
+        public ActionResult MyAccount()
+        {
+            var currentUserId = User.Identity.GetUserId();
+            var thisCustomer = db.Customers.Where(u => u.userId.Id == currentUserId).First();
+            var thisId = thisCustomer.Id;
+            Customer customer = db.Customers.Find(thisId);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customer);
+        }
 
     }
 }

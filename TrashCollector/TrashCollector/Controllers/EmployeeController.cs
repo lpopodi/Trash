@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,66 +20,72 @@ namespace TrashCollector.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public ActionResult MyAction(MyViewModel model)
-        //{
-        //    return Content(result);
-        //}
-
-        //[HttpPost]
-        //public ActionResult MyAction(Model model, string zipInput, DateTime? dateInput)
-        //{
-        //    var pickups = db.Customers.Where(p => p.Schedule.DefaultPickupDay == dateInput && p.ZipCode == zipInput).ToList();
-        //    return Content(pickups);
-        //}
-
-        [HttpGet]
-        public PartialViewResult DisplayStops()
+        public ActionResult CustomerIndex()
         {
-            return PartialView();
+            return View(db.Customers.ToList());
         }
 
         [HttpPost]
-        public PartialViewResult DisplayStops(string zipInput, DateTime? dateInput)
+        public ActionResult DisplayStops(string zipInput, DateTime dateInput)
         {
-            return PartialView(db.Customers.Where(p => p.Schedule.DefaultPickupDay == dateInput && p.ZipCode == zipInput).ToList());
+            List<Customer> theseStops = new List<Customer>();
+            var dateCheck = dateInput.ToShortDateString();
+            var checkStops = db.Customers.ToList();
+            foreach (var stop in checkStops)
+            {
+                var dateString = stop.DefaultPickupDay.ToShortDateString();
+                if (dateString == dateCheck && stop.ZipCode == zipInput)
+                {
+                    theseStops.Add(stop);
+                }
+            }
+            return View(theseStops);
         }
 
-        //public PartialViewResult DisplayStops()
-        //{
-        //    return PartialView(db.Customers.ToList());
-        //}
-
-        public PartialViewResult ShowMap()
-        {
-            return PartialView();
-        }
 
         public void InvoiceAccounts()
         {
-            ApplicationDbContext db = new ApplicationDbContext();
             var todayDate = DateTime.Now;
+            var today = todayDate.Date;
             var startDate = DateTime.Now.AddMonths(-1);
             var accountsToInvoice = db.Customers.ToList();
             foreach (var customer in accountsToInvoice)
             {
-                var customerBillDate = customer.Schedule.BillDate;
-                if (customerBillDate == todayDate)
+                var customerBillDate = customer.BillDate;
+                var billDate = customerBillDate.Date;
+                if (billDate == today)
                 {
-                    Invoice invoice = new Invoice();
-                    invoice.InvoiceId = Guid.NewGuid();
-                    invoice.InvoiceDate = DateTime.Now;
-                    var customerPickups = customer.Pickups.Where(d => d.PickupDate >= startDate && d.PickupDate <= todayDate).ToList();
-                    foreach (var pickup in customerPickups)
+                    if (customer.AccountBalance == null)
                     {
-                        int incNum = 0;
-                        string serviceDate = pickup.PickupDate.ToShortDateString();
-                        invoice.InvoiceDetails.Add(new InvoiceDetail() { LineId = invoice.InvoiceId + "-I" + incNum++, LineItem = "Trash Pickup", LineDate = serviceDate, LinePrice = 20 });
-                        invoice.Total = invoice.Total += 20;
+                        customer.AccountBalance = 0;
+                    }
+                    var customerPickups = db.Pickups.Where(r => r.Customer.Id == customer.Id).ToList();
+                    IEnumerable<Pickup> filterPickups = customerPickups;
+                    var billableDates = filterPickups.Where(r => r.PickupDate >= startDate && r.PickupDate <= todayDate).ToList();
+                    foreach (var pickup in billableDates)
+                    {
+                        customer.AccountBalance += 20;
                     }
                     db.SaveChanges();
                 }
             }
         }
+
+        public void ApplyPickup(int customerId)
+        {
+            var holder = User.Identity.GetUserId();
+            var user = db.Users.Where(u => u.Id == holder).FirstOrDefault();
+            var thisCustomer = db.Customers.Where(c => c.Id == customerId).FirstOrDefault();
+            Pickup pickup = new Pickup();
+            pickup.userId = user;
+            pickup.PickupDate = DateTime.Now;
+            pickup.Customer = thisCustomer;
+            thisCustomer.Pickups.Add(pickup);
+            db.Pickups.Add(pickup);
+            db.SaveChanges();
+        }
+
+
+
     }
 }
