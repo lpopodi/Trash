@@ -40,23 +40,30 @@ namespace TrashCollector.Models
 
         [Display(Name = "Default Pickup Day")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DefaultPickupDay { get; set; }
+
+        [Display(Name = "One Time Extra Pickup Day")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? ExtraPickupDay { get; set; }
 
         [Display(Name = "Start Vacation")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? VacationStartDate { get; set; }
 
         [Display(Name = "End Vacation")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true, NullDisplayText = "")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true, NullDisplayText = "")]
         public DateTime? VacationEndDate { get; set; }
 
         [Display(Name = "Billing Date")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime BillDate { get; set; }
+
+        [Display(Name = "Account Balance")]
         [DisplayFormat(DataFormatString = "{0:n2}", ApplyFormatInEditMode = true)]
         public decimal? AccountBalance { get; set; }
 

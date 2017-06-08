@@ -16,12 +16,14 @@ namespace TrashCollector.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Pickups
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Index()
         {
             return View(db.Pickups.ToList());
         }
 
         // GET: Pickups/Details/5
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -37,6 +39,7 @@ namespace TrashCollector.Controllers
         }
 
         // GET: Pickups/Create
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Create()
         {
             return View();
@@ -65,6 +68,7 @@ namespace TrashCollector.Controllers
         }
 
         // GET: Pickups/Edit/5
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -96,6 +100,7 @@ namespace TrashCollector.Controllers
         }
 
         // GET: Pickups/Delete/5
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

@@ -72,10 +72,10 @@ namespace TrashCollector.Controllers
             }
             catch (Exception)
             {
-                return View("FailureView");
+                return View("PaymentFailure");
             }
             ResetBalanceFromSuccess();
-            return View("SuccessView");
+            return View("PaymentSuccess");
         }
 
         private PayPal.Api.Payment payment;

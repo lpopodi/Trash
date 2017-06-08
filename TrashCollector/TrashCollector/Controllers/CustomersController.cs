@@ -16,6 +16,7 @@ namespace TrashCollector.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Customers
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Index()
         {
             return View(db.Customers.ToList());
@@ -47,7 +48,7 @@ namespace TrashCollector.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,Phone,Email,DefaultPickupDay,VacationStartDate,VacationEndDate,BillDate")] Customer customer)
+        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,Phone,Email,DefaultPickupDay,ExtraPickupDay,VacationStartDate,VacationEndDate,BillDate,AccountBalance")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +65,7 @@ namespace TrashCollector.Controllers
         }
 
         // GET: Customers/Edit/5
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -83,7 +85,7 @@ namespace TrashCollector.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,Phone,Email,DefaultPickupDay,VacationStartDate,VacationEndDate,BillDate")] Customer customer)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,Phone,Email,DefaultPickupDay,ExtraPickupDay,VacationStartDate,VacationEndDate,BillDate,AccountBalance")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -95,6 +97,7 @@ namespace TrashCollector.Controllers
         }
 
         // GET: Customers/Delete/5
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -129,6 +132,7 @@ namespace TrashCollector.Controllers
             base.Dispose(disposing);
         }
 
+        [Authorize(Roles = "Admin,Customer")]
         public ActionResult MyAccount()
         {
             var currentUserId = User.Identity.GetUserId();
@@ -138,6 +142,64 @@ namespace TrashCollector.Controllers
             if (customer == null)
             {
                 return HttpNotFound();
+            }
+            return View(customer);
+        }
+
+        // GET: Customers/Edit/5
+        [Authorize(Roles = "Admin,Customer")]
+        public ActionResult EditAccountDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditAccountDetails([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,Phone,Email,DefaultPickupDay,ExtraPickupDay,VacationStartDate,VacationEndDate,BillDate,AccountBalance")] Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(customer).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(customer);
+        }
+
+         // GET: Customers/Edit/5
+        [Authorize(Roles = "Admin,Customer")]
+        public ActionResult EditDefaultDates(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditDefaultDates([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,Phone,Email,DefaultPickupDay,ExtraPickupDay,VacationStartDate,VacationEndDate,BillDate,AccountBalance")] Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(customer).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
             return View(customer);
         }

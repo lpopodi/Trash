@@ -15,17 +15,20 @@ namespace TrashCollector.Controllers
         DateTime? dateInput = DateTime.Today;
 
         // GET: Employee
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Index()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult CustomerIndex()
         {
             return View(db.Customers.ToList());
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult DisplayStops(string zipInput, DateTime dateInput)
         {
             List<Customer> theseStops = new List<Customer>();
@@ -38,11 +41,19 @@ namespace TrashCollector.Controllers
                 {
                     theseStops.Add(stop);
                 }
+                if (stop.ExtraPickupDay.HasValue)
+                {
+                    var equal = Nullable.Compare<DateTime>(dateInput, stop.ExtraPickupDay);
+                    if (equal == 0)
+                    {
+                        theseStops.Add(stop);
+                    }
+                }
             }
             return View(theseStops);
         }
 
-
+        [Authorize(Roles = "Admin,Employee")]
         public void InvoiceAccounts()
         {
             var todayDate = DateTime.Now;
@@ -71,6 +82,7 @@ namespace TrashCollector.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         public void ApplyPickup(int customerId)
         {
             var holder = User.Identity.GetUserId();

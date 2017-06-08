@@ -16,6 +16,7 @@ namespace TrashCollector
             ConfigureAuth(app);
             createRolesandUsers();
             CheckUpdateNextPickup();
+            CheckUpdateBillDate();
         }
 
         private void createRolesandUsers()
@@ -25,13 +26,13 @@ namespace TrashCollector
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
-  
+
             if (!roleManager.RoleExists("Admin"))
             {
- 
+
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
                 role.Name = "Admin";
-                roleManager.Create(role);             
+                roleManager.Create(role);
 
                 var user = new ApplicationUser();
                 user.UserName = "superadmin";
@@ -55,7 +56,7 @@ namespace TrashCollector
                 roleManager.Create(role);
 
             }
-  
+
             if (!roleManager.RoleExists("Employee"))
             {
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
@@ -92,7 +93,22 @@ namespace TrashCollector
             }
         }
 
-        
+        public void CheckUpdateBillDate()
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            var todaysDate = DateTime.Today;
+            var getSchedules = db.Customers.ToList();
+            foreach (var schedule in getSchedules)
+            {
+                if (todaysDate > schedule.BillDate)
+                {
+                    var newBillDate = schedule.BillDate.AddMonths(1);
+                    schedule.BillDate = newBillDate;
+                    db.SaveChanges();
+                }
+            }
+        }
+
 
     }
 }
