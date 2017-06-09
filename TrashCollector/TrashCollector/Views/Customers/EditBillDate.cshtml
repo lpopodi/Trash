@@ -1,9 +1,4 @@
 ﻿@model TrashCollector.Models.Customer
-@{
-    ViewBag.Title = "EditDefaultDates";
-}
-
-<h2>EditDefaultDates</h2>
 
 @using (Html.BeginForm())
 {
@@ -15,13 +10,18 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.DefaultPickupDay, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DefaultPickupDay, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DefaultPickupDay, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        @Html.HiddenFor(model => model.FirstName)
+        @Html.HiddenFor(model => model.LastName)
+        @Html.HiddenFor(model => model.StreetAddress)
+        @Html.HiddenFor(model => model.City)
+        @Html.HiddenFor(model => model.State)
+        @Html.HiddenFor(model => model.ZipCode)
+        @Html.HiddenFor(model => model.Phone)
+        @Html.HiddenFor(model => model.Email)
+        @Html.HiddenFor(model => model.DefaultPickupDay)
+        @Html.HiddenFor(model => model.ExtraPickupDay)
+        @Html.HiddenFor(model => model.VacationStartDate)
+        @Html.HiddenFor(model => model.VacationEndDate)
 
         <div class="form-group">
             @Html.LabelFor(model => model.BillDate, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -30,6 +30,8 @@
                 @Html.ValidationMessageFor(model => model.BillDate, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        @Html.HiddenFor(model => model.AccountBalance)
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -40,5 +42,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to My Account", "MyAccount")
+    @Html.ActionLink("Back to Account", "MyAccount")
 </div>

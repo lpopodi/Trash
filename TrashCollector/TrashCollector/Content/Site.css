@@ -25,13 +25,13 @@ textarea {
 
 /* Start custom css edits */
 div#map {
-    height: 500px;
-    width: 600px !important;
+    height: 480px;
+    width: 480px;
     float: right;
 }
 
 div#directions-panel {
-    width: 300px !important;
+    width: 290px !important;
     float: left !important;
 }
 
@@ -106,4 +106,7 @@ p.lead-text {
 .edit-link {
     text-align: right;
     padding-right: 10px;
+}
+#stops-section, #stops {
+    margin-left: -10px;
 }

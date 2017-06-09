@@ -170,14 +170,14 @@ namespace TrashCollector.Controllers
             {
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("MyAccount", "Customers");
             }
-            return View(customer);
+            return RedirectToAction("MyAccount", "Customers");
         }
 
          // GET: Customers/Edit/5
         [Authorize(Roles = "Admin,Customer")]
-        public ActionResult EditDefaultDates(int? id)
+        public ActionResult EditBillDate(int? id)
         {
             if (id == null)
             {
@@ -193,15 +193,102 @@ namespace TrashCollector.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditDefaultDates([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,Phone,Email,DefaultPickupDay,ExtraPickupDay,VacationStartDate,VacationEndDate,BillDate,AccountBalance")] Customer customer)
+        public ActionResult EditBillDate([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,Phone,Email,DefaultPickupDay,ExtraPickupDay,VacationStartDate,VacationEndDate,BillDate,AccountBalance")] Customer customer)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("MyAccount", "Customers");
+            }
+            return RedirectToAction("MyAccount", "Customers");
+        }
+
+        // GET: Customers/Edit/5
+        [Authorize(Roles = "Admin,Customer")]
+        public ActionResult EditDefaultDate(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
             }
             return View(customer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditDefaultDate([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,Phone,Email,DefaultPickupDay,ExtraPickupDay,VacationStartDate,VacationEndDate,BillDate,AccountBalance")] Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(customer).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("MyAccount", "Customers");
+            }
+            return RedirectToAction("MyAccount", "Customers");
+        }
+
+        // GET: Customers/Edit/5
+        [Authorize(Roles = "Admin,Customer")]
+        public ActionResult EditExtraDate(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditExtraDate([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,Phone,Email,DefaultPickupDay,ExtraPickupDay,VacationStartDate,VacationEndDate,BillDate,AccountBalance")] Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(customer).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("MyAccount", "Customers");
+            }
+            return RedirectToAction("MyAccount", "Customers");
+        }
+
+        // GET: Customers/Edit/5
+        [Authorize(Roles = "Admin,Customer")]
+        public ActionResult EditVacationDate(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditVacationDate([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,Phone,Email,DefaultPickupDay,ExtraPickupDay,VacationStartDate,VacationEndDate,BillDate,AccountBalance")] Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(customer).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("MyAccount", "Customers");
+            }
+            return RedirectToAction("MyAccount", "Customers");
         }
 
     }

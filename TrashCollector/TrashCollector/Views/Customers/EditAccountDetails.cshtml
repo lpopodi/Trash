@@ -79,6 +79,12 @@
             </div>
         </div>
 
+        @Html.HiddenFor(model => model.DefaultPickupDay)
+        @Html.HiddenFor(model => model.ExtraPickupDay)
+        @Html.HiddenFor(model => model.VacationStartDate)
+        @Html.HiddenFor(model => model.VacationEndDate)
+        @Html.HiddenFor(model => model.BillDate)
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />

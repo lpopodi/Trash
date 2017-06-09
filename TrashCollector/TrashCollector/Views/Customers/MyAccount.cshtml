@@ -48,7 +48,7 @@
                 @Html.DisplayFor(model => model.DefaultPickupDay)
             </p>
             <p class="edit-link">
-                @Html.ActionLink("Edit Default Dates", "EditDefaultDates", new { id = Model.Id })
+                @Html.ActionLink("Edit Default Dates", "EditDefaultDate", new { id = Model.Id })
             </p>
             <div class="schedule-heading">
                 @Html.DisplayNameFor(model => model.ExtraPickupDay)
@@ -57,7 +57,7 @@
                 @Html.DisplayFor(model => model.ExtraPickupDay)
             </p>
             <p class="edit-link">
-                @Html.ActionLink("Schedule Additional Pickup", "ScheduleAdditionalPickup", new { id = Model.Id })
+                @Html.ActionLink("Schedule Additional Pickup", "EditExtraDate", new { id = Model.Id })
             </p>
             <div class="schedule-heading">
                 @Html.DisplayNameFor(model => model.VacationStartDate)
@@ -72,7 +72,7 @@
                 @Html.DisplayFor(model => model.VacationEndDate)
             </p>
             <p class="edit-link">
-                @Html.ActionLink("Schedule Vacation Dates", "ScheduleVacationDates", new { id = Model.Id })
+                @Html.ActionLink("Schedule Vacation Dates", "EditVacationDate", new { id = Model.Id })
             </p>
         </div>
         <div class="billing-details">
@@ -83,7 +83,7 @@
                 @Html.DisplayFor(model => model.BillDate)
             </p>
             <p class="edit-link">
-                @Html.ActionLink("Edit Default Dates", "EditDefaultDates", new { id = Model.Id })
+                @Html.ActionLink("Edit Default Dates", "EditBillDate", new { id = Model.Id })
             </p>
             <div id= "billing-balance">
                 <p class="billing-heading">
@@ -100,7 +100,5 @@
         </div>
     </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "CustomerEdit", new { id = Model.Id })
-</p>
+
 
