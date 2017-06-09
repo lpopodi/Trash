@@ -58,10 +58,10 @@ namespace TrashCollector.Controllers
                 customer.Email = user.Email;
                 db.Customers.Add(customer);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return View("Home");
             }
 
-            return View(customer);
+            return View("Home");
         }
 
         // GET: Customers/Edit/5

@@ -80,6 +80,9 @@ namespace TrashCollector.Controllers
                     db.SaveChanges();
                 }
             }
+            Response.Redirect(Request.UrlReferrer.ToString());
+            //ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Invoices have been run');", true);
+            //Response.Redirect(Request.UrlReferrer.ToString());
         }
 
         [Authorize(Roles = "Admin,Employee")]
@@ -95,6 +98,7 @@ namespace TrashCollector.Controllers
             thisCustomer.Pickups.Add(pickup);
             db.Pickups.Add(pickup);
             db.SaveChanges();
+            Response.Redirect("Index");
         }
 
 
